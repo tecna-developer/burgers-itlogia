@@ -1,0 +1,378 @@
+/* Общие стили для сайта */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* Подключаем шрифты*/
+@font-face {
+    font-family: 'Gilroy';
+    src: url("../fonts/Gilroy-Semibold.ttf");
+}
+
+@font-face {
+    font-family: 'Merriweather';
+    src: url("../fonts/Merriweather-Black.ttf");
+}
+
+/*По умолчанию цвет, шрифт и фон */
+body {
+    background-color: #191411;
+    font-family: 'Gilroy', 'san-serif';
+    color: white;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    /*центрирование контейнера */
+}
+
+.button {
+    border-radius: 8px;
+    background: var(--unnamed, linear-gradient(135deg, #DA8023 0%, #E2B438 100%));
+    width: 260px;
+    height: 62px;
+    padding: 20px;
+    box-sizing: border-box;
+    /*  центруем */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    /*убираем границу */
+    cursor: pointer;
+    /*убирем состояние фокуса - подсветку*/
+    outline: none;
+    /*стили для текста */
+    font-size: 18px;
+    color: #191411;
+}
+
+.button:hover {
+    background: var(--unnamed, linear-gradient(135deg, #ac6115 0%, #9e7a19 100%));
+}
+
+.common-title {
+    font-family: 'Merriweather', 'san-serif';
+    font-size: 64px;
+    line-height: 80px;
+    letter-spacing: 1.92px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.main {
+    overflow: hidden;
+    background-image: url("../images/main_bg.png");
+    background-position: top center;
+    background-repeat: no-repeat;
+}
+
+.header {
+    padding: 40px 0;
+}
+
+.header .container {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    vertical-align: bottom;
+    /*убрать лишний отступ снизу по умолчанию */
+}
+
+.menu {
+    margin-left: 191px;
+}
+
+.menu-list {
+    list-style: none;
+    display: flex;
+
+}
+
+.menu-item {
+    padding-right: 88px;
+}
+
+.menu-item a {
+    font-size: 18px;
+    color: #fff;
+    /* убрать синий цвет по умолчанию для ссылок */
+    text-decoration: none;
+    /* убрать подчеркивание */
+    cursor: pointer;
+    /*рука, чтобы была понятно, при наведении, можно нажать */
+}
+
+/* подчеркивание при наведении, но только на ссылку, а не на элемент ссылки */
+.menu-item a:hover {
+    border-bottom: 2px solid white;
+}
+
+.currency {
+    border-radius: 5px;
+    border: 1px solid #FFF;
+    width: 45px;
+    height: 45px;
+    padding: 6px;
+    box-sizing: border-box;
+    /* чтобы padding входил в уже установленные размеры*/
+    cursor: pointer;
+    text-align: center;
+    line-height: 32px;
+    margin-left: auto;
+    /* примкнул к краю контейнера */
+    user-select: none;
+    /* автоматически не выделялся текст при кликании на элемент*/
+}
+
+.main-content {
+    padding-top: 103px;
+    padding-bottom: 199px;
+}
+
+.main-content .container {
+    position: relative;
+}
+
+.main-info {
+    max-width: 608px;
+}
+
+.main-small-info {
+    border-radius: 100px;
+    background: var(--d-3320-f, #D3320F);
+    padding: 12px 16px;
+    /*отображались padding */
+    display: inline-block;
+    /*стили для внутреннего текста */
+    font-size: 18px;
+}
+
+.main-title {
+    font-family: 'Merriweather', 'san-serif';
+    font-size: 120px;
+    font-weight: 900;
+    line-height: 130%;
+    letter-spacing: 3.6px;
+    text-transform: uppercase;
+    margin-bottom: 56px;
+}
+
+.main-text {
+    font-size: 24px;
+    line-height: 29px;
+    margin-bottom: 56px;
+}
+
+.main-image {
+    position: absolute;
+    /* поднять вверх, искусственно */
+    top: -123px;
+    left: calc(100% - 991px);
+}
+
+.why {
+    background-image: url("../images/whybg.png");
+    background-position: top center;
+    /*картинка будет в оригинальном виде */
+    background-size: initial;
+    background-repeat: no-repeat;
+    padding-bottom: 180px;
+}
+
+.why-items {
+    margin-top: 60px;
+    /* для табличного вида */
+    display: grid;
+    gap: 100px;
+    /* jрасстояние между*/
+    grid-template-columns: repeat(3, 312px);
+    /*  одинаковые колонки с одним размером*/
+    justify-content: center;
+
+}
+
+.why-item {
+    /* чтоб все элементы были по центру*/
+    text-align: center;
+}
+
+.why-item-title {
+    font-size: 24px;
+    line-height: 29px;
+    padding: 24px 0;
+    /* так как есть gap, то отступы не задаем */
+}
+
+.why-item-text {
+    font-size: 16px;
+    line-height: 140%;
+
+}
+
+.products {
+    background-image: url("../images/burgers_bg.png");
+    background-position: top center;
+    background-size: 1400px;
+    background-repeat: no-repeat;
+    padding-bottom: 180px;
+
+}
+
+.products-items {
+    display: grid;
+    grid-template-columns: repeat(3, 384px);
+    gap: 24px;
+    margin-top: 60px;
+}
+
+.products-item {
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid #353535;
+    background: #211A16;
+}
+
+.products-item-image {
+    height: 250px;
+}
+
+/* именно для картинки, а не группы */
+.products-item-image img {
+    max-width: 100%;
+}
+
+.products-item-title {
+    font-size: 24px;
+    line-height: 29px;
+    padding: 24px 0;
+}
+
+.products-item-text {
+    font-size: 16px;
+    line-height: 140%;
+    padding-bottom: 24px;
+}
+
+.products-item-extra {
+    display: flex;
+    justify-content: space-between;
+}
+
+.products-item-price {
+    font-size: 32px;
+    line-height: 39px;
+    margin-bottom: 8px;
+
+}
+
+.products-item-weight {
+    font-size: 16px;
+    line-height: 18px;
+    color: #757575
+}
+
+.button.product-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 19px 50px;
+    width: 182px;
+    height: 62px;
+}
+
+.button.product-button span:first-child {
+    margin-right: 10px;
+}
+
+.order {
+    background-image: url("../images/order-bg.png");
+    background-position: top center;
+    background-repeat: no-repeat;
+    padding-bottom: 180px;
+    overflow: hidden;
+}
+
+.order .container {
+    position: relative;
+}
+
+.order-image {
+    position: absolute;
+    top: 0;
+    right: calc(100% - 764px);
+    z-index: -1;
+}
+
+.order-form {
+    border-radius: 16px;
+    border: 1px solid #353535;
+    background: #211A16;
+    max-width: 426px;
+    /*  ширина 424, добавляем 2 на границы
+    высоту не надо, содержимое само устанавливает*/
+    margin-top: 60px;
+    box-sizing: border-box;
+    padding: 60px 40px;
+    margin-left: 674px;
+}
+
+.order-form-text {
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+}
+
+.order-form-inputs {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+}
+
+.order-form-input {
+    background: linear-gradient(95.61deg, #DA8023 0%, #E2B438 100%);
+    width: 344px;
+    height: 62px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.order-form-input input {
+    padding: 20px 10px;
+    background: #211A16;
+    border-radius: 8px;
+    width: 342px;
+    height: 59px;
+    box-sizing: border-box;
+    outline: none;
+    border: 1px solid transparent;
+    color: white;
+}
+
+.order-form-inputs .button {
+    width: 344px;
+    height: 62px;
+
+}
+
+footer {
+    padding: 60px 0;
+}
+
+footer .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.right {
+    font-size: 16px;
+    line-height: 20px;
+}
