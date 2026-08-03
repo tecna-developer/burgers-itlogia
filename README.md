@@ -1,8 +1,8 @@
 # Burger House
 
 A one-page site for a burger restaurant: hero, reasons to order, a menu of twelve burgers
-and an order form. Plain HTML, one stylesheet and one script — no framework and no build
-step, despite what `package.json` claims (see [Angular leftovers](#angular-leftovers)).
+and an order form. Plain HTML, one stylesheet and one script — no framework, no build step
+and no dependencies.
 
 **Live demo:** https://tecna-developer.github.io/burgers-itlogia/
 
@@ -42,14 +42,12 @@ step, despite what `package.json` claims (see [Angular leftovers](#angular-lefto
 
 ## Running it
 
-There is no build step. Open `index.html` in a browser, or serve the folder:
+There is nothing to install and nothing to build. Open `index.html` in a browser, or serve
+the folder:
 
 ```bash
 npx serve
 ```
-
-Ignore `npm start` and `npm run build` — those are Angular CLI commands left over from the
-scaffolding, and there is nothing for them to compile.
 
 ## Structure
 
@@ -66,18 +64,13 @@ og-image.png      1200x630 social preview
 
 Section ids double as scroll targets: `why`, `products`, `order`.
 
-## Angular leftovers
+## History
 
-The repository was scaffolded with Angular CLI 16 and then built as a static page instead.
-What remains is inert but misleading:
-
-- `package.json` declares the full Angular 16 runtime and a Karma/Jasmine test stack
-- `angular.json`, `tsconfig.json`, `tsconfig.app.json` and `tsconfig.spec.json` are present
-- there is no `src/app`, no component, no TypeScript file anywhere
-
-Nothing in the published page touches any of it — GitHub Pages serves `index.html` from the
-repository root. This README used to be the stock Angular CLI text, which is what prompted
-the rewrite. Deleting the scaffolding would make the repository honest at a glance.
+The repository was scaffolded with Angular CLI 16 and then built as a static page instead,
+so it carried an Angular 16 dependency tree, a Karma/Jasmine test stack, `angular.json` and
+three `tsconfig` files without a single component or TypeScript file to go with them. None
+of it was ever reachable from the published page — GitHub Pages serves `index.html` from
+the repository root — and all of it has been removed.
 
 ## Scope
 
