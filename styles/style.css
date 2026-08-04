@@ -191,14 +191,12 @@ body {
 
 .why-items {
     margin-top: 60px;
-    /* для табличного вида */
     display: grid;
-    gap: 100px;
-    /* jрасстояние между*/
-    grid-template-columns: repeat(3, 312px);
-    /*  одинаковые колонки с одним размером*/
+    gap: clamp(32px, 6vw, 100px);
+    /* Capped at 312px rather than 1fr: at 1fr the three columns would stretch
+       to 333px in a 1200px content box and the desktop layout would shift. */
+    grid-template-columns: repeat(auto-fit, minmax(260px, 312px));
     justify-content: center;
-
 }
 
 .why-item {
@@ -230,7 +228,9 @@ body {
 
 .products-items {
     display: grid;
-    grid-template-columns: repeat(3, 384px);
+    /* In a 1200px content box this computes to exactly the 384px the cards
+       were hard-coded to. Four columns would need 1272px, so it stays three. */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 24px;
     margin-top: 60px;
 }
