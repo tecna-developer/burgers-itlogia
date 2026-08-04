@@ -87,15 +87,18 @@ Then set the viewport to 1280×800 and evaluate:
 ```js
 () => {
   const c = document.querySelector('.container');
+  const cs = getComputedStyle(c);
   const p = document.querySelector('.products-items');
   return {
-    containerWidth: Math.round(c.getBoundingClientRect().width),
+    // Content box, not getBoundingClientRect(): once the container has padding
+    // the border box is 1240 while the content the layout is built on is 1200.
+    contentWidth: Math.round(c.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)),
     firstCardWidth: Math.round(p.firstElementChild.getBoundingClientRect().width),
   };
 }
 ```
 
-Expected now: `containerWidth` 1200, `firstCardWidth` 384. **Write these two numbers down — every later task re-checks them and they must not change.**
+Expected now: `contentWidth` 1200, `firstCardWidth` 384. **Write these two numbers down — every later task re-checks them and they must not change.**
 
 - [ ] **Step 3: Give the container gutters**
 
@@ -126,19 +129,27 @@ with:
 - [ ] **Step 4: Verify the desktop is unchanged and narrow screens have gutters**
 
 At 1280×800, evaluate the same snippet as Step 2.
-Expected: `containerWidth` 1200, `firstCardWidth` 384 — identical to the baseline.
+Expected: `contentWidth` 1200, `firstCardWidth` 384 — identical to the baseline.
 
 At 390×844, evaluate:
 
 ```js
 () => {
   const c = document.querySelector('.container');
-  const r = c.getBoundingClientRect();
-  return { left: Math.round(r.left), right: Math.round(document.documentElement.clientWidth - r.right) };
+  const cs = getComputedStyle(c);
+  // The container's border box spans the full viewport at this width, so its
+  // own left edge is 0. The gutter is inside it — measure the padding, and a
+  // child's inset from the screen edge.
+  const child = c.firstElementChild.getBoundingClientRect();
+  return {
+    paddingLeft: cs.paddingLeft,
+    paddingRight: cs.paddingRight,
+    firstChildLeft: Math.round(child.left),
+  };
 }
 ```
 
-Expected: `left` 20 and `right` 20 — content no longer touches the screen edge. Overflow is still large; later tasks remove it.
+Expected: `paddingLeft` and `paddingRight` both `"20px"`, and `firstChildLeft` 20 — content no longer touches the screen edge. Overflow is still large; later tasks remove it.
 
 - [ ] **Step 5: Commit**
 
@@ -371,13 +382,16 @@ At 1280×800, evaluate:
 ```js
 () => {
   const f = document.querySelector('.order-form');
-  const c = f.closest('.container').getBoundingClientRect();
+  const c = f.closest('.container');
+  // Measure from the container's CONTENT edge, not its border box — the
+  // container carries 20px of padding, so the two differ by 20.
+  const contentLeft = c.getBoundingClientRect().left + parseFloat(getComputedStyle(c).paddingLeft);
   const r = f.getBoundingClientRect();
-  return { offsetFromContainerLeft: Math.round(r.left - c.left), formWidth: Math.round(r.width), inputWidth: Math.round(document.querySelector('.order-form-input').getBoundingClientRect().width) };
+  return { offsetFromContentLeft: Math.round(r.left - contentLeft), formWidth: Math.round(r.width), inputWidth: Math.round(document.querySelector('.order-form-input').getBoundingClientRect().width) };
 }
 ```
 
-Expected now: `offsetFromContainerLeft` 674, `formWidth` 426, `inputWidth` 344. **These are the desktop values to preserve.**
+Expected now: `offsetFromContentLeft` 674, `formWidth` 426, `inputWidth` 344. **These are the desktop values to preserve.**
 
 At 390×844, evaluate the same snippet. Expected now: the form still sits 674px in and is 426px wide, far outside the screen. This is the failing state.
 
@@ -438,7 +452,7 @@ with:
 - [ ] **Step 3: Verify the desktop position holds and the form fits a phone**
 
 At 1280×800, evaluate the Step 1 snippet.
-Expected: `offsetFromContainerLeft` 674, `formWidth` 426, `inputWidth` 344 — identical to the baseline.
+Expected: `offsetFromContentLeft` 674, `formWidth` 426, `inputWidth` 344 — identical to the baseline.
 
 At 390×844, evaluate:
 
@@ -668,8 +682,9 @@ At 1280×800, evaluate:
 () => {
   const m = document.querySelector('.main-image');
   const f = document.querySelector('.order-form');
-  const c = f.closest('.container').getBoundingClientRect();
-  return { mainPosition: getComputedStyle(m).position, formOffset: Math.round(f.getBoundingClientRect().left - c.left) };
+  const c = f.closest('.container');
+  const contentLeft = c.getBoundingClientRect().left + parseFloat(getComputedStyle(c).paddingLeft);
+  return { mainPosition: getComputedStyle(m).position, formOffset: Math.round(f.getBoundingClientRect().left - contentLeft) };
 }
 ```
 
@@ -937,8 +952,9 @@ Also confirm the menu did not shift. At 1280×800, evaluate:
 ```js
 () => {
   const m = document.querySelector('.menu');
-  const c = m.closest('.container').getBoundingClientRect();
-  return { offsetFromContainerLeft: Math.round(m.getBoundingClientRect().left - c.left) };
+  const c = m.closest('.container');
+  const contentLeft = c.getBoundingClientRect().left + parseFloat(getComputedStyle(c).paddingLeft);
+  return { offsetFromContentLeft: Math.round(m.getBoundingClientRect().left - contentLeft) };
 }
 ```
 
