@@ -235,8 +235,12 @@ body {
 .products-items {
     display: grid;
     /* In a 1200px content box this computes to exactly the 384px the cards
-       were hard-coded to. Four columns would need 1272px, so it stays three. */
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+       were hard-coded to. Four columns would need 1272px, so it stays three.
+       The min(300px, 100%) clamp keeps the 300px floor on desktop while
+       letting the single column shrink to fit at the narrowest phones
+       (320px), where 300px plus the container gutters would otherwise
+       overflow. */
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
     gap: 24px;
     margin-top: 60px;
 }
@@ -482,5 +486,23 @@ footer .container {
 
     .menu-item {
         padding-right: 0;
+    }
+}
+
+/* ── Below 560px the vertical rhythm steps down ── */
+@media (max-width: 560px) {
+    .why,
+    .products,
+    .order {
+        padding-bottom: 80px;
+    }
+
+    .main-content {
+        padding-top: 48px;
+        padding-bottom: 96px;
+    }
+
+    .order-form {
+        padding: 40px 24px;
     }
 }
