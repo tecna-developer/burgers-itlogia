@@ -204,3 +204,18 @@ Measured in a real browser against the built page, not by inspection:
 
 The `<title>` says "Бургер Чеддер" while the Open Graph title says "Burger House". Noted in
 the README, unrelated to layout, left alone.
+
+## Deviations during implementation
+
+- `.products` keeps `background-size: 1400px`; the specified `cover` was withdrawn because the
+  section is 2661px tall, so `cover` scaled the image to 1.81x natural at desktop and cropped
+  it to a sliver on phones.
+- `.menu` uses `margin-left: clamp(24px, 16vw, 191px)`, not `auto`; `.currency` already has
+  `margin-left: auto` and two auto margins split the free space, moving the menu 21px left on
+  desktop.
+- The mobile menu panel is an in-flow flex line using `order: 4`, not the absolutely positioned
+  panel the spec describes.
+- `.products-items` uses `minmax(min(300px, 100%), 1fr)`; the plain `minmax(300px, 1fr)`
+  overflowed by 15px at a 320px viewport, where the content box is only 265px.
+- The keyboard-accessibility claim was aspirational until this fix: the menu links had no
+  `href` and were not focusable.

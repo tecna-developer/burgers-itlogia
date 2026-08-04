@@ -23,9 +23,10 @@ body {
 }
 
 .container {
-    /* 1240 rather than 1200: with border-box the 20px gutters come out of the
-       max-width, so 1200 would shrink the content box to 1160 and shift the
-       whole desktop layout. At 1240 the content box stays exactly 1200. */
+    /* 1240, а не 1200: при border-box отступы по 20px вычитаются из max-width,
+       поэтому при 1200 контентная область сузилась бы до 1160 и весь
+       десктопный макет сместился бы. При 1240 контентная область остаётся
+       ровно 1200. */
     max-width: 1240px;
     margin: 0 auto;
     padding-inline: 20px;
@@ -61,7 +62,8 @@ body {
 .common-title {
     font-family: 'Merriweather', 'san-serif';
     font-size: clamp(28px, 5.5vw, 64px);
-    /* was 80px — a fixed line-height does not survive a shrinking font-size */
+    /* было 80px — фиксированный line-height не переживает уменьшающийся
+       font-size */
     line-height: 1.25;
     letter-spacing: 1.92px;
     text-transform: uppercase;
@@ -90,11 +92,11 @@ body {
 }
 
 .menu {
-    /* Not auto: .currency already has margin-left: auto, and two auto margins
-       split the free space between them, which would move the menu 21px left
-       on desktop. 16vw reaches 191px at any viewport ≥1194, so the desktop is
-       unchanged, and it shrinks through the 900-1240 range where the row has
-       to compress. */
+    /* Не auto: у .currency уже есть margin-left: auto, и два авто-отступа
+       поделили бы свободное место между собой, что сдвинуло бы меню на 21px
+       влево на десктопе. 16vw достигает 191px при любой ширине окна ≥1194,
+       поэтому на десктопе ничего не меняется, а в диапазоне 900-1240, где
+       строке приходится сжиматься, значение уменьшается. */
     margin-left: clamp(24px, 16vw, 191px);
 }
 
@@ -105,7 +107,7 @@ body {
 }
 
 .menu-item {
-    padding-right: clamp(24px, 4vw, 88px);
+    padding-right: clamp(24px, 7.1vw, 88px);
 }
 
 .menu-item a {
@@ -165,7 +167,7 @@ body {
 
 .main-title {
     font-family: 'Merriweather', 'san-serif';
-    font-size: clamp(40px, 9vw, 120px);
+    font-size: clamp(40px, 9.7vw, 120px);
     font-weight: 900;
     line-height: 130%;
     letter-spacing: 3.6px;
@@ -198,9 +200,9 @@ body {
 .why-items {
     margin-top: 60px;
     display: grid;
-    gap: clamp(32px, 6vw, 100px);
-    /* Capped at 312px rather than 1fr: at 1fr the three columns would stretch
-       to 333px in a 1200px content box and the desktop layout would shift. */
+    gap: clamp(32px, 8.1vw, 100px);
+    /* Ограничено 312px, а не 1fr: при 1fr три колонки растянулись бы до 333px
+       в контентной области 1200px, и десктопный макет сместился бы. */
     grid-template-columns: repeat(auto-fit, minmax(260px, 312px));
     justify-content: center;
 }
@@ -234,12 +236,12 @@ body {
 
 .products-items {
     display: grid;
-    /* In a 1200px content box this computes to exactly the 384px the cards
-       were hard-coded to. Four columns would need 1272px, so it stays three.
-       The min(300px, 100%) clamp keeps the 300px floor on desktop while
-       letting the single column shrink to fit at the narrowest phones
-       (320px), where 300px plus the container gutters would otherwise
-       overflow. */
+    /* В контентной области 1200px это даёт ровно те 384px, на которые
+       карточки были жёстко заданы раньше. Четырём колонкам понадобилось бы
+       1272px, поэтому их остаётся три. min(300px, 100%) сохраняет нижний
+       порог 300px на десктопе и при этом позволяет единственной колонке
+       сжаться на самых узких телефонах (320px), где 300px плюс отступы
+       контейнера иначе привели бы к переполнению. */
     grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
     gap: 24px;
     margin-top: 60px;
@@ -276,7 +278,8 @@ body {
 .products-item-extra {
     display: flex;
     justify-content: space-between;
-    /* No breakpoint: the row wraps when the price and button stop fitting. */
+    /* Без брейкпоинта: строка переносится сама, когда цена и кнопка
+       перестают помещаться. */
     flex-wrap: wrap;
     gap: 16px;
 }
@@ -337,9 +340,10 @@ body {
     margin-top: 60px;
     box-sizing: border-box;
     padding: 60px 40px;
-    /* The card is not flush right: at 674px in a 1200px container it leaves a
-       100px gutter. margin-left alone would move it 100px right of where it
-       sits today, so the gutter is stated. Both become auto below 900px. */
+    /* Карточка не прижата к правому краю: при 674px в контейнере 1200px
+       остаётся отступ 100px. Один margin-left сдвинул бы её на 100px правее,
+       чем она стоит сейчас, поэтому отступ задан явно. Ниже 900px оба
+       значения становятся auto. */
     margin-left: auto;
     margin-right: 100px;
 }
@@ -371,10 +375,11 @@ body {
     padding: 20px 10px;
     background: #211A16;
     border-radius: 8px;
-    /* Not 100%: the parent is 344px with a gradient background, and the 1px it
-       shows on each side is the field's gradient border. A full-width input
-       covers it, because background-clip is border-box and the transparent
-       border reveals this element's own background, not the parent's. */
+    /* Не 100%: у родителя ширина 344px с градиентным фоном, и те 1px, что
+       видны с каждой стороны — это градиентная рамка поля. Инпут на всю
+       ширину перекрыл бы её, потому что background-clip здесь border-box, и
+       прозрачная рамка показывает собственный фон этого элемента, а не фон
+       родителя. */
     width: calc(100% - 2px);
     height: 59px;
     box-sizing: border-box;
@@ -407,7 +412,7 @@ footer .container {
 }
 
 .burger {
-    /* Hidden on desktop; the 900px block turns it on. */
+    /* Скрыт на десктопе; включается в блоке 900px. */
     display: none;
     width: 45px;
     height: 45px;
@@ -429,21 +434,19 @@ footer .container {
     background: #FFF;
 }
 
-/* ── Below 900px the header and the hero rearrange rather than just shrink ── */
+/* ── Ниже 900px шапка и хиро перестраиваются, а не просто сжимаются ── */
 @media (max-width: 900px) {
-    /* Both decorative burgers are positioned absolutely against a 1200px
-       layout. Below this width they join the flow and scale with the column,
-       so the food stays visible on a phone instead of being cropped away. */
+    /* Обе декоративные картинки с бургерами позиционированы absolute
+       относительно макета 1200px. Ниже этой ширины они становятся частью
+       потока и масштабируются вместе с колонкой, поэтому еда остаётся
+       видимой на телефоне, а не обрезается. У order-image был z-index: -1
+       только для десктопного наложения на форму; на static-элемент z-index
+       не действует, поэтому сбрасывать его отдельно не нужно. */
     .main-image,
     .order-image {
         position: static;
         max-width: 100%;
         height: auto;
-    }
-
-    .order-image {
-        /* Only needed to sit behind the overlapping form on desktop. */
-        z-index: auto;
     }
 
     .order-form {
@@ -466,8 +469,8 @@ footer .container {
     }
 
     .menu {
-        /* Full-width panel under the header row. order: 4 puts it on the
-           second flex line, below the logo, burger and currency. */
+        /* Панель на всю ширину под строкой шапки. order: 4 переносит её на
+           вторую flex-строку, под логотип, бургер и валюту. */
         order: 4;
         display: none;
         width: 100%;
@@ -489,7 +492,7 @@ footer .container {
     }
 }
 
-/* ── Below 560px the vertical rhythm steps down ── */
+/* ── Ниже 560px вертикальные отступы уменьшаются ── */
 @media (max-width: 560px) {
     .why,
     .products,

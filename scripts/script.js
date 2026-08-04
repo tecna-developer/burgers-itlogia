@@ -8,9 +8,13 @@ document.getElementById("main-action-button").onclick = function() {
 let Links = document.querySelectorAll(".menu-item > a");// нашли все ссылки в меню
 // обработчик событий через цикл вешаем на каждую ссылку по атрибуту data-link
 for(let i = 0; i < Links.length; i++) {
-    Links[i].onclick = function () {
-        // Панель перекрыла бы секцию, к которой сейчас проскроллит.
-        setMenuOpen(false);
+    Links[i].onclick = function (event) {
+        event.preventDefault();
+        if (mainMenu.classList.contains("is-open")) {
+            // Панель перекрыла бы секцию, к которой сейчас проскроллит.
+            setMenuOpen(false);
+            burgerButton.focus();
+        }
         document.getElementById(Links[i].getAttribute("data-link")).scrollIntoView({ behavior: "smooth" });
     }
 }
@@ -105,8 +109,8 @@ burgerButton.onclick = function (event) {
     setMenuOpen(!mainMenu.classList.contains("is-open"));
 };
 
-// document уже используется другими обработчиками, поэтому addEventListener,
-// а не onclick — он держит только один обработчик.
+// document.onclick — это всего один слот, и более поздний обработчик молча
+// перезаписал бы его, поэтому используется addEventListener.
 document.addEventListener("keydown", function (event) {
     if (event.key === "Escape" && mainMenu.classList.contains("is-open")) {
         setMenuOpen(false);
@@ -117,5 +121,6 @@ document.addEventListener("keydown", function (event) {
 document.addEventListener("click", function (event) {
     if (mainMenu.classList.contains("is-open") && !mainMenu.contains(event.target)) {
         setMenuOpen(false);
+        burgerButton.focus();
     }
 });
