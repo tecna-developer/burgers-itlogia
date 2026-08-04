@@ -9,6 +9,8 @@ let Links = document.querySelectorAll(".menu-item > a");// нашли все с�
 // обработчик событий через цикл вешаем на каждую ссылку по атрибуту data-link
 for(let i = 0; i < Links.length; i++) {
     Links[i].onclick = function () {
+        // Панель перекрыла бы секцию, к которой сейчас проскроллит.
+        setMenuOpen(false);
         document.getElementById(Links[i].getAttribute("data-link")).scrollIntoView({ behavior: "smooth" });
     }
 }
@@ -87,3 +89,33 @@ document.getElementById("change-currency").onclick = function (e) {
         prices[i].innerText = +(prices[i].getAttribute("data-base-price")* coefficient).toFixed(1) + " " + newCurrency;
     }
 }
+
+// Бургер-меню на узких экранах
+let burgerButton = document.querySelector(".burger");
+let mainMenu = document.getElementById("main-menu");
+
+function setMenuOpen(open) {
+    mainMenu.classList.toggle("is-open", open);
+    burgerButton.setAttribute("aria-expanded", String(open));
+    burgerButton.setAttribute("aria-label", open ? "Закрыть меню" : "Открыть меню");
+}
+
+burgerButton.onclick = function (event) {
+    event.stopPropagation();
+    setMenuOpen(!mainMenu.classList.contains("is-open"));
+};
+
+// document уже используется другими обработчиками, поэтому addEventListener,
+// а не onclick — он держит только один обработчик.
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && mainMenu.classList.contains("is-open")) {
+        setMenuOpen(false);
+        burgerButton.focus();
+    }
+});
+
+document.addEventListener("click", function (event) {
+    if (mainMenu.classList.contains("is-open") && !mainMenu.contains(event.target)) {
+        setMenuOpen(false);
+    }
+});

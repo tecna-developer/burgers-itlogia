@@ -90,7 +90,12 @@ body {
 }
 
 .menu {
-    margin-left: 191px;
+    /* Not auto: .currency already has margin-left: auto, and two auto margins
+       split the free space between them, which would move the menu 21px left
+       on desktop. 16vw reaches 191px at any viewport ≥1194, so the desktop is
+       unchanged, and it shrinks through the 900-1240 range where the row has
+       to compress. */
+    margin-left: clamp(24px, 16vw, 191px);
 }
 
 .menu-list {
@@ -100,7 +105,7 @@ body {
 }
 
 .menu-item {
-    padding-right: 88px;
+    padding-right: clamp(24px, 4vw, 88px);
 }
 
 .menu-item a {
@@ -397,6 +402,29 @@ footer .container {
     line-height: 20px;
 }
 
+.burger {
+    /* Hidden on desktop; the 900px block turns it on. */
+    display: none;
+    width: 45px;
+    height: 45px;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-left: auto;
+    background: transparent;
+    border: 1px solid #FFF;
+    border-radius: 5px;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.burger-line {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: #FFF;
+}
+
 /* ── Below 900px the header and the hero rearrange rather than just shrink ── */
 @media (max-width: 900px) {
     /* Both decorative burgers are positioned absolutely against a 1200px
@@ -417,5 +445,42 @@ footer .container {
     .order-form {
         margin-left: auto;
         margin-right: auto;
+    }
+
+    .burger {
+        display: flex;
+        order: 2;
+    }
+
+    .currency {
+        order: 3;
+        margin-left: 16px;
+    }
+
+    .header .container {
+        flex-wrap: wrap;
+    }
+
+    .menu {
+        /* Full-width panel under the header row. order: 4 puts it on the
+           second flex line, below the logo, burger and currency. */
+        order: 4;
+        display: none;
+        width: 100%;
+        margin-left: 0;
+        margin-top: 20px;
+    }
+
+    .menu.is-open {
+        display: block;
+    }
+
+    .menu-list {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .menu-item {
+        padding-right: 0;
     }
 }
