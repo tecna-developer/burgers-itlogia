@@ -23,9 +23,13 @@ body {
 }
 
 .container {
-    max-width: 1200px;
+    /* 1240 rather than 1200: with border-box the 20px gutters come out of the
+       max-width, so 1200 would shrink the content box to 1160 and shift the
+       whole desktop layout. At 1240 the content box stays exactly 1200. */
+    max-width: 1240px;
     margin: 0 auto;
-    /*центрирование контейнера */
+    padding-inline: 20px;
+    box-sizing: border-box;
 }
 
 .button {
