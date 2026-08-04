@@ -357,7 +357,11 @@ body {
     padding: 20px 10px;
     background: #211A16;
     border-radius: 8px;
-    width: 100%;
+    /* Not 100%: the parent is 344px with a gradient background, and the 1px it
+       shows on each side is the field's gradient border. A full-width input
+       covers it, because background-clip is border-box and the transparent
+       border reveals this element's own background, not the parent's. */
+    width: calc(100% - 2px);
     height: 59px;
     box-sizing: border-box;
     outline: none;
