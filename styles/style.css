@@ -396,3 +396,26 @@ footer .container {
     font-size: 16px;
     line-height: 20px;
 }
+
+/* ── Below 900px the header and the hero rearrange rather than just shrink ── */
+@media (max-width: 900px) {
+    /* Both decorative burgers are positioned absolutely against a 1200px
+       layout. Below this width they join the flow and scale with the column,
+       so the food stays visible on a phone instead of being cropped away. */
+    .main-image,
+    .order-image {
+        position: static;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .order-image {
+        /* Only needed to sit behind the overlapping form on desktop. */
+        z-index: auto;
+    }
+
+    .order-form {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
