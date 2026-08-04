@@ -68,22 +68,34 @@ Everything else adapts without a breakpoint.
 
 ### Container
 
-`.container` gains `padding-inline: 20px`. It currently has none, so at narrow widths content
-would sit flush against the screen edge. `max-width: 1200px` stays, giving a 1160px content
-box on wide screens — the figure the grid arithmetic below is based on.
+`.container` gains `padding-inline: 20px` and `box-sizing: border-box`. It currently has no
+padding at all, so at narrow widths content would sit flush against the screen edge.
+
+`max-width` goes from `1200px` to `1240px`. This matters: with `border-box`, keeping 1200
+would shrink the content box to 1160 and every card on the desktop layout would move. At 1240
+the content box stays exactly 1200 above that width, so the desktop rendering is unchanged,
+and below it the container shrinks with 20px gutters.
+
+All grid arithmetic below is against a 1200px content box.
 
 ### Grids — no media queries
 
 `.products-items`: `grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))`, `gap: 24px`.
 
-- three columns need `3×300 + 2×24 = 948` ≤ 1160, so desktop keeps three
-- four would need `4×300 + 3×24 = 1272` > 1160, so it never becomes four
+- three columns need `3×300 + 2×24 = 948` ≤ 1200, so desktop keeps three
+- four would need `4×300 + 3×24 = 1272` > 1200, so it never becomes four
+- at a 1200px content box the three columns compute to `(1200 − 48) / 3 = 384px` — the exact
+  width they are hard-coded to today, so the desktop layout does not shift
 - two columns need 624px of content, i.e. a viewport of ~664px; below that the grid drops to
   one column on its own
 
-`.why-items`: `repeat(auto-fit, minmax(260px, 1fr))` with `gap: clamp(32px, 6vw, 100px)`. The
-100px gap is kept at full width and shrinks with the viewport. Three columns at the maximum
-gap need `3×260 + 200 = 980` ≤ 1160.
+`.why-items`: `repeat(auto-fit, minmax(260px, 312px))` with `gap: clamp(32px, 6vw, 100px)`,
+keeping the existing `justify-content: center`.
+
+The upper bound is `312px` rather than `1fr` deliberately: with `1fr` the three columns would
+stretch to 333px at full width and the desktop layout would shift. Capped at 312 they keep
+their current width and stay centred. Three columns at the maximum gap need
+`3×312 + 200 = 1136` ≤ 1200.
 
 ### Type — no media queries
 
@@ -138,8 +150,12 @@ single easiest thing to reverse — one `display: none` in the 900px block.
 
 ### Order section
 
-`.order-form { margin-left: 674px }` → `margin-left: auto`. On desktop the card stays flush
-right exactly as now; below, it centres. No media query needed.
+`.order-form { margin-left: 674px }` → `margin-left: auto; margin-right: 100px`.
+
+The card is not flush right today: at `margin-left: 674px` with `max-width: 426px` it occupies
+674–1100 inside a 1200px container, leaving a 100px gutter. `margin-left: auto` alone would
+push it to 774–1200 and move it 100px right of where it sits now, so the right margin has to
+be stated. Inside the 900px block both become `auto` and the card centres.
 
 `.order-form-input`, its inner `input` and `.order-form-inputs .button` go from `344px` /
 `342px` / `344px` to `width: 100%`. The card's padding steps down at 560px as listed under
